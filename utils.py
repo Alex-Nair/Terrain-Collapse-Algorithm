@@ -9,3 +9,8 @@ def clear():
 def empty_buffer():
     while msvcrt.kbhit():
         msvcrt.getch()
+
+# Helper function, calculates manhattan distance between two points.
+def calculate_distance(point1, point2, absolute = True):
+    output = point2[0] + point2[1] - point1[0] - point1[1]
+    return abs(output) if absolute else output
