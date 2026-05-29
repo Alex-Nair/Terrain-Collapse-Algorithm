@@ -318,5 +318,113 @@ def world_generation_menu():
             case 8:
                 isDone = True
 
+
+def configure_settings(settings):
+    """
+    settings format:
+
+    {
+        "World Width": ["INT", 100, 10000],
+        "World Name": ["STRING"],
+        "Generate Rivers": ["BOOL"]
+    }
+    """
+
+    values = {}
+
+    for setting_name, setting_data in settings.items():
+
+        setting_type = setting_data[0]
+
+        while True:
+
+            try:
+
+                if setting_type == "INT":
+
+                    minimum = setting_data[1]
+                    maximum = setting_data[2]
+
+                    value = int(
+                        input(
+                            f"{setting_name} ({minimum}-{maximum}): "
+                        )
+                    )
+
+                    if minimum <= value <= maximum:
+                        values[setting_name] = value
+                        break
+
+                    print(
+                        f"Please enter a value between "
+                        f"{minimum} and {maximum}."
+                    )
+
+                elif setting_type == "STRING":
+
+                    value = input(
+                        f"{setting_name}: "
+                    )
+
+                    values[setting_name] = value
+                    break
+
+                elif setting_type == "BOOL":
+
+                    value = input(
+                        f"{setting_name} (True/False): "
+                    ).strip().lower()
+
+                    if value in (
+                        "true",
+                        "t",
+                        "yes",
+                        "y",
+                        "1"
+                    ):
+                        values[setting_name] = True
+                        break
+
+                    elif value in (
+                        "false",
+                        "f",
+                        "no",
+                        "n",
+                        "0"
+                    ):
+                        values[setting_name] = False
+                        break
+
+                    print(
+                        "Please enter True or False."
+                    )
+
+                else:
+
+                    print(
+                        f"Unknown setting type: "
+                        f"{setting_type}"
+                    )
+
+                    break
+
+            except ValueError:
+
+                print(
+                    "Invalid input. Please try again."
+                )
+
+    return values
+
 # Testing Purposes Only
 world_generation_menu()
+
+clear()
+
+settings = configure_settings({
+    "World Width:": ["INT", 10, 10000],
+    "World Name": ["STRING"],
+    "Generate Rivers": ["BOOL"]
+})
+
+print(settings)
